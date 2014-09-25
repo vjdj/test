@@ -1,0 +1,18 @@
+<poster>test channels</poster>
+<fanart></fanart>
+<thumbnail></thumbnail>
+
+<item>
+<title>Sun Music</title>
+<thumbnail></thumbnail>
+<fanart></fanart>
+<link>http://103.3.229.147:8084/r_sunmusic/01.m3u8</link>
+</item>
+
+<item>
+<title>Sun TV</title>
+<thumbnail></thumbnail>
+<fanart></fanart>
+<link>http://103.3.229.147:8084/r_suntv/01.m3u8</link>
+</item>
+
