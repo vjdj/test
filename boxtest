@@ -1,0 +1,12 @@
+Update-ExecutionPolicy Unrestricted
+Set-TaskbarSmall
+Enable-RemoteDesktop
+
+cinst sublimetext3
+cinst notepadplusplus
+cinst googlechrome
+
+Install-ChocolateyPinnedTaskBarItem "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+Install-ChocolateyPinnedTaskBarItem "C:\Program Files\Sublime Text 3\sublime_text.exe"
+
+Install-WindowsUpdate -AcceptEula
