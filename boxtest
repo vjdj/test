@@ -31,10 +31,6 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\DateTime\S
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\DateTime\Servers" /ve /d 25 /f
 echo internet time synchronisation set to fog server GMP
 
-REM activating Administrateur account
-net user administrateur Ed1S0n50 /active:yes
-echo admin account activated and password set
-
 REM opening wmic port
 
 netsh advfirewall firewall add rule dir=in name="DCOM" program=%systemroot%\system32\svchost.exe service=rpcss action=allow protocol=TCP localport=135 
@@ -91,26 +87,6 @@ REM Disabling service service partgae reseau du lecture windows media
 sc config WMPNetworkSvc start= disabled
 REM Disabling service carte a puce
 sc config SCardSvr start= disabled
-
-
-REM creating a network drive
-net use z: \\10.57.0.57\share 17111982 /user:vijai
-
-REM Installing office silently with config file
-START /WAIT z:\msoffice\setup.exe /config z:\msoffice\ProPlus.WW\config.xml
-Echo sending sms on successfull installation of MS Office....
-curl -k --get "https://smsapi.free-mobile.fr/sendmsg" --data "msg=MS Office installed successfully" --data "user=13933938" --data "pass=TBv7IPq9s4fWD7"
-
-REM Installing antivirus
-START /WAIT z:\antivirus\setup\setup.exe
-curl -k --get "https://smsapi.free-mobile.fr/sendmsg" --data "msg=Antivirus installed successfully" --data "user=13933938" --data "pass=TBv7IPq9s4fWD7"
-
-REM copying windows update script
-xcopy Z:\windowsupdatescript\* c:\users\user\Desktop\windowsupdatescript /s /i
-echo copied windows update script
-
-REM removing Network drive
-net use z: /DELETE
 
 Install-ChocolateyPinnedTaskBarItem "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 Install-ChocolateyPinnedTaskBarItem "C:\Program Files\Sublime Text 3\sublime_text.exe"
