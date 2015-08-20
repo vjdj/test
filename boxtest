@@ -1,7 +1,3 @@
-Update-ExecutionPolicy Unrestricted
-Set-TaskbarSmall
-Enable-RemoteDesktop
-
 cinst notepadplusplus
 cinst googlechrome
 choco install curl -y
