@@ -1,3 +1,6 @@
+Update-ExecutionPolicy Unrestricted
+Set-TaskbarSmall
+Enable-RemoteDesktop
 cinst notepadplusplus
 cinst googlechrome
 choco install curl -y
@@ -8,7 +11,6 @@ choco install flashplayerplugin -y
 choco install flashplayeractivex -y
 choco install adobereader -y
 choco install cdburnerxp -y
-choco install google-chrome -y
 choco install libreoffice -y
 choco install firefox -y
 choco install pdfcreator -y
@@ -19,15 +21,9 @@ choco install javaruntime -y
 choco install virtualclonedrive -y
 choco install defraggler -y
 choco install Filezilla -y
-Echo sending sms on successfull installation of chocolatey application....
+write-host "sending sms on successfull installation of chocolatey application...."
 curl -k --get "https://smsapi.free-mobile.fr/sendmsg" --data "msg= Chocolatey applications installed successfully" --data "user=13933938" --data "pass=TBv7IPq9s4fWD7"
-
-REM changing internet time 
-reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\DateTime\Servers" /v 25 /t REG_SZ /d fog-gmp.local.iut-troyes.univ-reims.fr /f
-reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\DateTime\Servers" /ve /d 25 /f
-echo internet time synchronisation set to fog server GMP
-
-REM opening wmic port
+write-host " opening wmic port"
 
 netsh advfirewall firewall add rule dir=in name="DCOM" program=%systemroot%\system32\svchost.exe service=rpcss action=allow protocol=TCP localport=135 
 
@@ -39,52 +35,41 @@ netsh advfirewall firewall add rule dir=out name ="WMI-rpcss" program=%systemroo
 
 netsh advfirewall firewall add rule dir=in name ="WMI-async" program=%systemroot%\system32\svchost.exe service=async action=allow protocol=TCP localport=any
 
-Echo Wmic port opened
+write-host "Wmic port opened"
 
-REM psexec port opening
+write-host "psexec port opening"
 
 netsh advfirewall firewall add rule name="psexec Port 445" dir=in action=allow protocol=TCP localport=445
 
-Echo psexec port opened
+write-host "psexec port opened"
 
-REM activating remote desktop
+write-host "allow ping response"
 
-netsh advfirewall firewall set rule name="Bureau à distance (TCP-Entrée)" new enable=Yes
+netsh advfirewall firewall add rule name="All ICMP V4" protocol=icmpv4 dir=in action=allow
 
-reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f
+write-host "ping response activated"
 
-Echo remote desktop activated
-
-REM allow ping response
-
-netsh advfirewall firewall add rule name="All ICMP V4" protocol=icmpv4:any,any dir=in action=allow
-
-Echo ping response activated
-
-REM Stoping  service adobe,googleupdate,windowssearch,windowsupdates
+write-host "Stoping  service adobe,googleupdate,windowssearch,windowsupdates"
 net stop AdobeFlashPlayerUpdateSvc
 net stop AdobeARMservice
 net stop gupdate
 net stop Wsearch
 net stop WMPNetworkSvc
 
-REM Disable the services
-REM Disabling service Adobe flash player update
-sc config AdobeFlashPlayerUpdateSvc start= disabled
-REM Disabling service adobe update
-sc config AdobeARMservice start= disabled
-REM Disabling service google update
-sc config gupdate start= disabled
-REM Disabling service windows search
-sc config wsearch start= disabled
-REM Disabling service windows updates
-sc config wuauserv start= demand
-REM Disabling service service partgae reseau du lecture windows media
-sc config WMPNetworkSvc start= disabled
-REM Disabling service carte a puce
-sc config SCardSvr start= disabled
-
+write-host "Disable the services"
+write-host "Disabling service Adobe flash player update"
+set-service AdobeFlashPlayerUpdateSvc -startuptype disabled
+write-host "Disabling service adobe update"
+set-service AdobeARMservice -startuptype disabled
+write-host "Disabling service google update"
+set-service gupdate -startuptype disabled
+write-host "Disabling service windows search"
+set-service wsearch -startuptype disabled
+write-host "Disabling service windows updates"
+set-service wuauserv -startuptype manual
+write-host "Disabling service service partgae reseau du lecture windows media"
+set-service WMPNetworkSvc -startuptype disabled
+write-host "Disabling service carte a puce"
+set-service SCardSvr -startuptype disabled
 Install-ChocolateyPinnedTaskBarItem "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
-Install-ChocolateyPinnedTaskBarItem "C:\Program Files\Sublime Text 3\sublime_text.exe"
-
 Install-WindowsUpdate -AcceptEula
