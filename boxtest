@@ -21,8 +21,7 @@ choco install javaruntime -y
 choco install virtualclonedrive -y
 choco install defraggler -y
 choco install Filezilla -y
-write-host "sending sms on successfull installation of chocolatey application...."
-curl -k --get "https://smsapi.free-mobile.fr/sendmsg" --data "msg= Chocolatey applications installed successfully" --data "user=13933938" --data "pass=TBv7IPq9s4fWD7"
+write-host "End of installing chocolatey application...."
 write-host " opening wmic port"
 
 netsh advfirewall firewall add rule dir=in name="DCOM" program=%systemroot%\system32\svchost.exe service=rpcss action=allow protocol=TCP localport=135 
